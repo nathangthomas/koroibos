@@ -24,7 +24,6 @@ router.get('/', (req, res) => {
   .catch(error => res.status(500).send({ error }))
 });
 
-
 // private methods below this point -- move to utils/olympiansHelpers.js
 
 async function allOlympians() {
