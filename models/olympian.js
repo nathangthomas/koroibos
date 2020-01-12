@@ -1,5 +1,6 @@
 class Olympian {
   constructor(obj) {
+    this.id = obj.id,
     this.name = obj.name,
     this.sex = obj.sex,
     this.age = obj.age,
@@ -8,6 +9,6 @@ class Olympian {
     this.sport = obj.sport,
     this.team = obj.team
   }
-
+}
 
 module.exports = Olympian;
