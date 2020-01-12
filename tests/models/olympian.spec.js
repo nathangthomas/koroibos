@@ -2,8 +2,8 @@
 // const Olympian = require("../../models/olympian");
 //
 // describe("Olympian model", ()=> {
-//   // beforeEach(async () => {
-//   //   await database.raw('TRUNCATE TABLE olympians CASCADE');
+//   beforeEach(async () => {
+//     await database.raw('TRUNCATE TABLE olympians CASCADE');
 //   //
 //   //   let olympian1 = await database('olympians')
 //   //     .insert({id: 1, name:'Tathan Nhomas', sex: 'M', age: 33, height: 180, weight: 145, sport: 'climbing', team: 'Colorado'})
