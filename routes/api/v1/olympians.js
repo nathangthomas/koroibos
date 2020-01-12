@@ -38,8 +38,6 @@ async function allOlympians() {
 }
 
 
-
-
 function medalCount(name){
   knex.from('olympics_data').select('name', 'medal')
   .where({name: 'Almaz Ayana Eba'})
