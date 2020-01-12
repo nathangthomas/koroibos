@@ -30,10 +30,10 @@ async function allOlympians() {
       const athlete = await database('olympics_data').whereNotNull('medal').whereNot('medal', 'NULL').where('name', olympian.name).select('name').groupBy('name').count('name')
 
       if (athlete.length == 0) {
-         olympian['total_medals_won'] = "0"
+         olympian['total_medals_won'] = 0
       }
       if (athlete.length != 0) {
-         olympian['total_medals_won'] = athlete[0].count
+         olympian['total_medals_won'] = parseInt(athlete[0].count)
       }
     }));
     var data = olympians
