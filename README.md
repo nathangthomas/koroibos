@@ -1,8 +1,8 @@
 # Welcome to KOROIBOS
 
-The Koroibos API is a statistics API for the 2016 olympics that was built as a 48 hour challenge. Users can call on a number of endpoints that return information about the athletes and events.
+The Koroibos API is a statistics API for the 2016 olympics that was built during a 48 hour challenge. Users can call on a number of endpoints that return information about the athletes and events.
 
-Koroibos is deployed to Heroku, and is located at: <insert url here>
+Interact with Koroibos live on Heroku at: https://koroibos-stats.herokuapp.com/
 
 
 ### Table of Contents
@@ -25,21 +25,77 @@ https://github.com/nathangthomas/koroibos
 ```
 npm install
 ```
+### Setting up local DEV database & Importing Data From CSV File
+Enter the PSQL shell
+`psql`
+Create your database
+`CREATE DATABASE koroibos_dev`
+Move into your new database
+`\c koroibos_dev`
+Create database table
+```
+CREATE TABLE olympics_data (id SERIAL PRIMARY KEY,
+Name TEXT,                                                                            
+Sex TEXT,                                          
+Age INT,
+Height INT,
+Weight INT,
+Team TEXT,
+Games TEXT,
+Sport TEXT,
+Event TEXT,
+Medal TEXT);
+```
+Copy data from CSV into your new table
+```
+COPY olympics_data(name, sex, age, height, weight, team, games, sport, event, medal)
+FROM '<full_file_path_of_csv_file>' delimiter ',' csv NULL AS 'NULL', HEADER);
+```
+### Setting up local TEST database & Importing Data From CSV File
+Enter the PSQL shell
+`psql`
+Create your database
+`CREATE DATABASE koroibos_test`
+Move into your new database
+`\c koroibos_test`
+Create database table
+```
+CREATE TABLE olympics_data (id SERIAL PRIMARY KEY,
+Name TEXT,                                                                            
+Sex TEXT,                                          
+Age INT,
+Height INT,
+Weight INT,
+Team TEXT,
+Games TEXT,
+Sport TEXT,
+Event TEXT,
+Medal TEXT);
+```
+Copy data from CSV into your new table
+```
+COPY olympics_data(name, sex, age, height, weight, team, games, sport, event, medal)
+FROM '<full_file_path_of_csv_file>' delimiter ',' csv NULL AS 'NULL', HEADER);
+```
+exit the PSQL shell
+`/q`
+
 ### Run Migrations
-```
-python manage.py db init
-python manage.py db migrate
-python manage.py db upgrade
-```
+
+`knex migrate:latest --env test`
+`knex migrate:latest --env dev`
+
+### Run Tests
+`npm test` - to run all tests
+`jest <test file path>` - to run a single test
 
 ### Run the Server
-```
-npm start
-```
+`npm start`
+
 or
-```
-nodemon start
-```
+
+`nodemon start` - prevents you from having to restart the server after making changes
+
 ## **Examples**
 
 `GET api/v1/olympians`
