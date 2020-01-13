@@ -29,7 +29,6 @@ describe('get olympian stats', () => {
         .get("/api/v1/olympian_stats");
 
       expect(response.statusCode).toBe(200);
-console.log(response.body)
       expect(response.body.total_competing_olympians).toBe(3);
       expect(response.body.average_weight.male_olympians).toBe(145);
       expect(response.body.average_weight.female_olympians).toBe(132);

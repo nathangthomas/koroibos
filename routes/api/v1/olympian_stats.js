@@ -31,12 +31,10 @@ async function olympianStats() {
     exposureData['"average_weight"']['"unit"'] = 'kg'
     await averageMaleWeight()
       .then(avgM => {
-        console.log(avgM)
         exposureData['"average_weight"']['"male_olympians"'] = avgM
       })
     await averageFemaleWeight()
       .then(avgF => {
-        console.log(avgF)
         exposureData['"average_weight"']['"female_olympians"'] = avgF
       })
     await averageAge()
