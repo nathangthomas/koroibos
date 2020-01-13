@@ -10,34 +10,84 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('../../../knexfile')[environment];
 const database = require('knex')(configuration);
 
-router.get('/', (req, res) => {
-  allOlympians()
-  .then(olympians => {
-    if (olympians.length){
-      res.status(200).send({olympians: olympians})
+router.get('/', async function(req, res) {
+  // console.log(req.query.age)
+  try {
+    if (req.query.age === 'oldest') {
+      await maxAge()
+      .then(oldest => {
+        if (oldest.length){
+          res.status(200).send(oldest)
+        } else {
+          res.status(404).json({
+            error: 'Not found.'
+          })
+        }
+      })
+      .catch(error => res.status(500).send({ error }))
+    }
+
+    if (req.query.age !== undefined) {
+        allOlympians()
+        .then(olympians => {
+          if (olympians.length){
+            res.status(200).send({olympians: olympians})
+          } else {
+            res.status(404).json({
+              error: 'Not found.'
+            })
+          }
+        })
     } else {
-      res.status(404).json({
-        error: 'Not found.'
+      allOlympians()
+      .then(olympians => {
+        if (olympians.length){
+          res.status(200).send({olympians: olympians})
+        } else {
+          res.status(404).json({
+            error: 'Not found.'
+          })
+        }
       })
     }
-  })
-  .catch(error => res.status(500).send({ error }))
+  } catch (error) {
+    res.status(500).send({ error })
+  }
 });
 
-async function allOlympians() {
-    const olympians = await database('olympics_data').select('name', 'age', 'team', 'sport').groupBy('name', 'age', 'team', 'sport')
-    await Promise.all(olympians.map(async (olympian) => {
-      const athlete = await database('olympics_data').whereNotNull('medal').whereNot('medal', 'NULL').where('name', olympian.name).select('name').groupBy('name').count('name')
+// private methods below this point eventually to be moved to the utils file
 
-      if (athlete.length == 0) {
-         olympian['total_medals_won'] = 0
-      }
-      if (athlete.length != 0) {
-         olympian['total_medals_won'] = parseInt(athlete[0].count)
-      }
-    }));
-    var data = olympians
-    return data
-  }
+async function allOlympians() {
+  const olympians = await database('olympics_data').select('name', 'age', 'team', 'sport').groupBy('name', 'age', 'team', 'sport')
+  await Promise.all(olympians.map(async (olympian) => {
+    const athlete = await database('olympics_data').whereNotNull('medal').whereNot('medal', 'NULL').where('name', olympian.name).select('name').groupBy('name').count('name')
+
+    if (athlete.length == 0) {
+      olympian['total_medals_won'] = 0
+    }
+    if (athlete.length != 0) {
+      olympian['total_medals_won'] = parseInt(athlete[0].count)
+    }
+  }));
+  var data = olympians
+  return data
+}
+
+async function maxAge() {
+  const olympians = await database('olympics_data').select('name', 'age', 'team', 'sport').groupBy('name', 'age', 'team', 'sport').orderBy('age', 'desc').limit(1)
+  await Promise.all(olympians.map(async (olympian) => {
+    const athlete = await database('olympics_data').whereNotNull('medal').whereNot('medal', 'NULL').where('name', olympian.name).select('name').groupBy('name').count('name')
+
+    if (athlete.length == 0) {
+      olympian['total_medals_won'] = 0
+    }
+    if (athlete.length != 0) {
+      olympian['total_medals_won'] = parseInt(athlete[0].count)
+    }
+  }));
+  var data = olympians
+  return data
+}
+
 
 module.exports = router;
