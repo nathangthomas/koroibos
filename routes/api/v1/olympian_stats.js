@@ -25,21 +25,21 @@ async function olympianStats() {
   const exposureData = {}
     await totalNumOfOlympians()
       .then(totalNum => {
-        exposureData['"total_competing_olympians"'] = totalNum
+        exposureData['total_competing_olympians'] = totalNum
       })
-    exposureData['"average_weight"'] = {}
-    exposureData['"average_weight"']['"unit"'] = 'kg'
+    exposureData['average_weight'] = {}
+    exposureData['average_weight']['unit'] = 'kg'
     await averageMaleWeight()
       .then(avgM => {
-        exposureData['"average_weight"']['"male_olympians"'] = avgM
+        exposureData['average_weight']['male_olympians'] = avgM
       })
     await averageFemaleWeight()
       .then(avgF => {
-        exposureData['"average_weight"']['"female_olympians"'] = avgF
+        exposureData['average_weight']['female_olympians'] = avgF
       })
     await averageAge()
       .then(age => {
-        exposureData['"average_age"'] = age
+        exposureData['average_age'] = age
       })
     return exposureData
 }
