@@ -27,7 +27,6 @@ describe('get olympian stats', () => {
     it('happy path', async () => {
       const response = await request(app)
         .get("/api/v1/olympian_stats");
-console.log(response.body)
       expect(response.statusCode).toBe(200);
       expect(response.body.total_competing_olympians).toBe(3);
       expect(response.body.average_weight.male_olympians).toBe(145);
