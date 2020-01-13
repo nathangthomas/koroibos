@@ -1,6 +1,5 @@
 class Olympian {
   constructor(obj) {
-    console.log(obj)
     this.name = obj.name,
     this.sex = obj.sex,
     this.age = obj.age,
