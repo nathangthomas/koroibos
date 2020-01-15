@@ -52,6 +52,9 @@ COPY olympics_data(name, sex, age, height, weight, team, games, sport, event, me
 FROM '<full_file_path_of_csv_file>' delimiter ',' csv NULL AS 'NULL', HEADER);
 ```
 ### Setting up local TEST database & Importing Data From CSV File
+
+<img width="254" alt="Screen Shot 2020-01-14 at 6 21 35 PM" src="https://user-images.githubusercontent.com/47466067/72396736-8f962e80-3735-11ea-98ea-b80b957a424c.png">
+
 Enter the PSQL shell
 `psql`
 Create your database
